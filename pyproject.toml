@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "private-voice-memo-bot"
+version = "2.0.0"
+description = "A private Discord voice-memo transcription, summary, and Obsidian sync bot"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Mostafa-Atlas" }]
+keywords = ["discord", "voice", "transcription", "summarization", "obsidian", "groq", "openai"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "discord.py==2.7.1",
+  "groq==1.7.0",
+  "openai>=1.99,<4",
+  "python-dotenv==1.2.3",
+  "tzdata>=2024.1",
+]
+
+[project.scripts]
+voicebot = "voicebot.cli:main"
+
+[tool.uv]
+required-version = "==0.11.21"
+package = true
+
+[tool.setuptools]
+packages = ["voicebot"]
+py-modules = ["bot", "delete_messages"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+# Long lines inside embedded assets (dashboard CSS/HTML, summary prompt text)
+# cannot be wrapped without changing what is served or sent to the model.
+[tool.ruff.lint.per-file-ignores]
+"voicebot/dashboard.py" = ["E501"]
+"voicebot/ai.py" = ["E501"]
